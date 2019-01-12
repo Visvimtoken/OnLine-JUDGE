@@ -43,3 +43,66 @@ int main()
       return 0;
 }
 //统计余数的个数并输出。关键是统计一个数组中不重复的元素的个数。这个sum是O(n^2)复杂度，可以改进为O（nlogn）。
+
+
+P2956
+// Plow Robot
+#include <iostream>
+using namespace std;
+typedef struct 
+{
+	int x1,y1;
+	int x2,y2;
+}Order;
+int main(int argc, char const *argv[])
+{
+	int m,n,k;
+	int count = 0;//
+	
+	cin>>m>>n>>k;//m是行数，n是列数，K是指令的条数。
+	int field[m][n];
+	Order order[k];
+	for(int i= 0;i<m;i++)
+	{
+		for(int j = 0;j<n;j++)
+		{
+			field[i][j]= 0;//初始化
+		}
+	}//field代表土地。field[i][j]==1则表示机器人已经把这块地耕过了
+	for(int i = 0;i<k;i++)
+	{
+		cin>>order[i].x1>>order[i].y1;//左下角（x1,y1）
+		cin>>order[i].x2>>order[i].y2;//右上角（x2,y2）
+	}//输入每次机器人plow的左下角坐标和右上角坐标
+	//输入工作完成
+	//开始计算到底有多少方块被耕过了
+	//思路是根据输入的坐标，开始遍历field。如果非零就置1，否则什么也不做。最后统计field【】【】到底有多少个1
+	//需要注意的一点是：遍历开始和结束的坐标都要是初值-1。因为数组是从0开始编号的。
+	for (int i = 0; i < k; i++)
+	{
+		for(int j = order[i].x1-1;j<order[i].x2;j++)
+		{
+			for(int z = order[i].y1-1;z<order[i].y2;z++)
+			{
+				field[j][z] = 1;
+			}
+		}
+	}
+
+	for(int i = 0;i<m;i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if(field[i][j] == 1)
+			{
+				count ++;
+			}
+		}
+	}
+
+
+
+	cout<<count<<endl;
+	return 0;
+
+}
